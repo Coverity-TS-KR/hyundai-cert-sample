@@ -1,0 +1,60 @@
+# Coverity configuration file.
+# The schema is available here: <install-dir>/doc/configuration-schema.json
+# For help on individual settings:      coverity help config --setting <setting>
+# For a complete example configuration: coverity help config --show-all
+# For help on configuration syntax:     coverity help config --syntax
+
+
+capture:
+  build:
+    # The build command will be invoked to use build capture to capture the
+    # project. A build command specified on the command-line will override this
+    # setting.
+    build-command: ./build.sh
+
+    # The clean command will be invoked prior to doing build capture to capture
+    # the project.
+    clean-command: rm -rf out
+  # compiler-configuration:
+
+  #   # Specifies a list of arguments to pass to "cov-configure" to generate the
+  #   # compiler configuration to use during capture. This key is mutually
+  #   # exclusive with the "file" key.
+  compiler-configuration:
+    cov-configure:
+      - ["--java"]
+
+  # languages:  
+  #   include:
+  #     - java
+
+  emit-complementary-info: true
+
+# Specifies how the project should be analyzed.
+analyze:
+
+  # If specified, the analysis will scan the code for compliance according to
+  # the given coding standard configuration. If this configuration is present,
+  # the capture "emit-complementary-info" flag will be set to true.
+  coding-standards:
+
+    # Enables HYUNDAI-Java code compliance checking according to the given
+    # configuration.
+    hyundai-java:
+      #pre-canned: all-deviations
+      file: "hyundai-java-MJ-OBJ-012.config"
+
+    cert-java:
+       #pre-canned: all
+       file: "cert-java-OBJ05-J.config"
+
+# Specifies where the analysis results should be sent.
+commit:
+  connect:
+    stream: Case21_MJ_OBJ_012
+
+    url: http://localhost:8080
+
+    on-new-cert: trust
+
+
